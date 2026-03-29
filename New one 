@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>COCO Concrete | Utah's Trusted Concrete Specialists</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;600;700&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --red: #7A1010;
+    --red-bright: #9B1515;
+    --red-light: #C02020;
+    --black: #0A0A0A;
+    --dark: #111111;
+    --dark2: #1A1A1A;
+    --dark3: #222222;
+    --white: #FFFFFF;
+    --border: rgba(255,255,255,0.08);
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Barlow', sans-serif; background: var(--black); color: var(--white); line-height: 1.7; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
+    background: rgba(10,10,10,0.97); backdrop-filter: blur(10px);
+    border-bottom: 2px solid var(--red);
+    padding: 0 2.5rem; display: flex; align-items: center; justify-content: space-between; height: 70px;
+  }
+  .nav-logo { display: flex; align-items: center; }
+  .nav-logo-box {
+    background: var(--red); padding: 6px 14px; display: flex; align-items: center; gap: 0;
+  }
+  .nav-logo-text {
+    font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--white);
+    letter-spacing: 0.08em; line-height: 1;
+  }
+  .nav-logo-dot { color: rgba(255,255,255,0.5); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
+  .nav-links a {
+    color: rgba(255,255,255,0.7); text-decoration: none;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.95rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+  .nav-cta { background: var(--red) !important; color: var(--white) !important; padding: 0.5rem 1.4rem !important; }
+  .nav-cta:hover { background: var(--red-bright) !important; }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; }
+  .hamburger span { display: block; width: 26px; height: 2px; background: var(--white); }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    background:
+      linear-gradient(to bottom, rgba(10,10,10,0.72) 0%, rgba(10,10,10,0.35) 40%, rgba(10,10,10,0.88) 100%),
+      url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1800&q=80') center/cover no-repeat;
+    display: flex; align-items: center;
+    padding: 7rem 2.5rem 5rem; position: relative; overflow: hidden;
+  }
+  .hero-accent { position: absolute; left: 0; top: 0; bottom: 0; width: 5px; background: var(--red); }
+  .hero-inner { max-width: 1100px; margin: 0 auto; width: 100%; }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem;
+    font-family: 'Barlow Condensed', sans-serif; font-size: 0.85rem; font-weight: 700;
+    letter-spacing: 0.25em; text-transform: uppercase; color: var(--red-light);
+  }
+  .hero-eyebrow::before { content: ''; display: block; width: 28px; height: 2px; background: var(--red); }
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4.5rem, 11vw, 9rem); color: var(--white); line-height: 0.92;
+    margin-bottom: 1.5rem; letter-spacing: 0.02em;
+  }
+  .hero-title .red { color: var(--red-light); }
+  .hero-sub {
+    font-size: clamp(1rem, 2vw, 1.15rem); color: rgba(255,255,255,0.65);
+    font-weight: 300; max-width: 500px; margin-bottom: 3rem;
+  }
+  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--red); color: var(--white); padding: 0.9rem 2.5rem;
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1rem;
+    letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none;
+    transition: background 0.2s, transform 0.15s; border: none; cursor: pointer; display: inline-block;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 100%, 12px 100%);
+  }
+  .btn-primary:hover { background: var(--red-bright); transform: translateY(-2px); }
+  .btn-outline {
+    background: transparent; color: var(--white); padding: 0.9rem 2.5rem;
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1rem;
+    letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none;
+    transition: all 0.2s; border: 1px solid rgba(255,255,255,0.3); display: inline-block;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 100%, 12px 100%);
+  }
+  .btn-outline:hover { border-color: var(--red); color: var(--red-light); }
+
+  /* TRUST BAR */
+  .trust-bar {
+    background: var(--red); padding: 1rem 2rem;
+    display: flex; justify-content: center; align-items: center; gap: 3rem; flex-wrap: wrap;
+  }
+  .trust-item {
+    display: flex; align-items: center; gap: 0.6rem;
+    color: rgba(255,255,255,0.9); font-size: 0.8rem; font-weight: 700;
+    font-family: 'Barlow Condensed', sans-serif; letter-spacing: 0.15em; text-transform: uppercase;
+  }
+  .trust-dot { width: 5px; height: 5px; background: rgba(255,255,255,0.4); border-radius: 50%; }
+
+  /* SECTIONS */
+  section { padding: 6rem 2.5rem; }
+  .container { max-width: 1100px; margin: 0 auto; }
+  .section-label {
+    display: inline-flex; align-items: center; gap: 0.6rem; margin-bottom: 1rem;
+    font-family: 'Barlow Condensed', sans-serif; font-size: 0.8rem; font-weight: 700;
+    letter-spacing: 0.25em; text-transform: uppercase; color: var(--red-light);
+  }
+  .section-label::before { content: ''; display: block; width: 20px; height: 2px; background: var(--red); }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.5rem, 5vw, 4rem);
+    color: var(--white); line-height: 1; margin-bottom: 1.25rem; letter-spacing: 0.02em;
+  }
+  .section-sub { font-size: 1rem; color: rgba(255,255,255,0.5); max-width: 520px; font-weight: 300; }
+
+  /* SERVICES */
+  #services { background: var(--dark); }
+  .services-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1px; margin-top: 3.5rem; background: var(--dark3); border: 1px solid var(--dark3);
+  }
+  .service-card {
+    background: var(--dark2); padding: 2rem 1.75rem;
+    transition: background 0.2s; position: relative; overflow: hidden;
+  }
+  .service-card::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: var(--red); transform: scaleY(0); transform-origin: bottom; transition: transform 0.3s;
+  }
+  .service-card:hover { background: var(--dark3); }
+  .service-card:hover::before { transform: scaleY(1); }
+  .service-num {
+    font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem;
+    color: rgba(122,16,16,0.25); line-height: 1; margin-bottom: 0.75rem; transition: color 0.2s;
+  }
+  .service-card:hover .service-num { color: rgba(155,21,21,0.45); }
+  .service-card h3 {
+    font-family: 'Barlow Condensed', sans-serif; font-size: 1.2rem; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase; color: var(--white); margin-bottom: 0.65rem;
+  }
+  .service-card p { font-size: 0.9rem; color: rgba(255,255,255,0.5); font-weight: 300; line-height: 1.6; }
+
+  /* GALLERY */
+  #gallery { background: var(--black); }
+  .gallery-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 260px 260px; gap: 4px; margin-top: 3rem;
+  }
+  .gallery-item { overflow: hidden; position: relative; cursor: pointer; background: var(--dark3); }
+  .gallery-item:first-child { grid-column: span 2; }
+  .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; filter: brightness(0.8); }
+  .gallery-item:hover img { transform: scale(1.07); filter: brightness(1); }
+  .gallery-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(122,16,16,0.85) 0%, transparent 55%);
+    opacity: 0; transition: opacity 0.3s; display: flex; align-items: flex-end; padding: 1.25rem;
+  }
+  .gallery-item:hover .gallery-overlay { opacity: 1; }
+  .gallery-overlay span {
+    color: var(--white); font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+  }
+  .upload-note {
+    margin-top: 1.5rem; padding: 1.1rem 1.5rem;
+    background: rgba(122,16,16,0.15); border-left: 3px solid var(--red);
+    font-size: 0.88rem; color: rgba(255,255,255,0.45);
+  }
+  .upload-note strong { color: var(--red-light); }
+
+  /* AREA */
+  #area { background: var(--dark); }
+  .area-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; margin-top: 3.5rem; }
+  .area-list { list-style: none; }
+  .area-list li {
+    padding: 1rem 0; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 1rem;
+    color: rgba(255,255,255,0.7); font-size: 1rem; transition: color 0.2s;
+  }
+  .area-list li:hover { color: var(--white); }
+  .area-dot { width: 8px; height: 8px; background: var(--red); flex-shrink: 0; }
+  .area-map {
+    background: var(--dark2); border: 1px solid var(--dark3);
+    height: 340px; display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 0.75rem;
+  }
+  .area-map-label { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: rgba(255,255,255,0.15); letter-spacing: 0.1em; }
+  .area-map-sub { font-size: 0.75rem; color: rgba(255,255,255,0.2); letter-spacing: 0.12em; text-transform: uppercase; }
+
+  /* WHY */
+  #why { background: var(--red); position: relative; overflow: hidden; }
+  #why::before {
+    content: 'COCO'; position: absolute; right: -1rem; top: -2rem;
+    font-family: 'Bebas Neue', sans-serif; font-size: 18rem;
+    color: rgba(0,0,0,0.12); line-height: 1; pointer-events: none; letter-spacing: 0.02em;
+  }
+  .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0; margin-top: 3.5rem; }
+  .why-item { padding: 2.5rem 2rem; border-right: 1px solid rgba(0,0,0,0.2); position: relative; z-index: 1; }
+  .why-item:last-child { border-right: none; }
+  .why-number { font-family: 'Bebas Neue', sans-serif; font-size: 4rem; color: var(--white); line-height: 1; margin-bottom: 0.5rem; }
+  .why-item h4 {
+    font-family: 'Barlow Condensed', sans-serif; font-size: 0.85rem; font-weight: 700;
+    color: rgba(255,255,255,0.65); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.12em;
+  }
+  .why-item p { font-size: 0.875rem; color: rgba(255,255,255,0.55); font-weight: 300; }
+
+  /* CONTACT */
+  #contact { background: var(--dark2); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 5rem; align-items: start; margin-top: 3.5rem; }
+  .contact-info h3 { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--white); margin-bottom: 1.5rem; letter-spacing: 0.02em; }
+  .contact-info > p { font-size: 0.95rem; color: rgba(255,255,255,0.45); font-weight: 300; margin-bottom: 2.5rem; }
+  .contact-detail { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.75rem; }
+  .contact-icon { width: 44px; height: 44px; background: var(--red); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+  .contact-detail-text strong {
+    display: block; font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: rgba(255,255,255,0.35); margin-bottom: 0.2rem;
+  }
+  .contact-detail-text a, .contact-detail-text span { color: var(--white); font-size: 1.05rem; text-decoration: none; font-weight: 600; }
+  .contact-detail-text a:hover { color: var(--red-light); }
+
+  /* FORM */
+  .lead-form { background: var(--dark3); padding: 2.5rem; border-top: 3px solid var(--red); }
+  .lead-form h3 { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--white); margin-bottom: 0.4rem; letter-spacing: 0.02em; }
+  .lead-form .form-sub { font-size: 0.85rem; color: rgba(255,255,255,0.35); margin-bottom: 2rem; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-group { margin-bottom: 1.1rem; }
+  .form-group label {
+    display: block; font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+    color: rgba(255,255,255,0.35); margin-bottom: 0.4rem;
+  }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%; padding: 0.75rem 1rem;
+    background: var(--dark2); border: 1px solid rgba(255,255,255,0.1);
+    font-family: 'Barlow', sans-serif; font-size: 0.95rem; color: var(--white);
+    transition: border-color 0.2s; outline: none;
+  }
+  .form-group input::placeholder, .form-group textarea::placeholder { color: rgba(255,255,255,0.18); }
+  .form-group select option { background: var(--dark2); }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--red); background: #1E1E1E; }
+  .form-group textarea { resize: vertical; min-height: 110px; }
+  .btn-submit {
+    width: 100%; padding: 1rem; background: var(--red); color: var(--white);
+    border: none; cursor: pointer; font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+    transition: background 0.2s, transform 0.15s;
+    clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 100%, 14px 100%);
+  }
+  .btn-submit:hover { background: var(--red-bright); transform: translateY(-1px); }
+  .form-success { display: none; text-align: center; padding: 3rem 1rem; }
+  .form-success h4 { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; color: var(--red-light); margin-bottom: 0.5rem; letter-spacing: 0.02em; }
+  .form-success p { color: rgba(255,255,255,0.5); }
+
+  /* FOOTER */
+  footer {
+    background: var(--black); border-top: 2px solid var(--red);
+    padding: 2.5rem 2.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem;
+  }
+  .footer-logo-box { background: var(--red); padding: 6px 14px; }
+  .footer-logo-text { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; color: var(--white); letter-spacing: 0.08em; }
+  .footer-links { display: flex; flex-direction: column; gap: 0.3rem; text-align: right; }
+  .footer-links a { color: rgba(255,255,255,0.4); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--red-light); }
+  .footer-links span { color: rgba(255,255,255,0.2); font-size: 0.8rem; }
+  .footer-copy { width: 100%; text-align: center; font-size: 0.75rem; color: rgba(255,255,255,0.18); padding-top: 1.5rem; border-top: 1px solid var(--border); }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .nav-links.open {
+      display: flex; flex-direction: column; gap: 0;
+      position: absolute; top: 70px; left: 0; width: 100%;
+      background: var(--black); border-bottom: 2px solid var(--red); padding: 0.5rem 0;
+    }
+    .nav-links.open li a { display: block; padding: 0.9rem 2rem; }
+    .gallery-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+    .gallery-item:first-child { grid-column: span 2; height: 220px; }
+    .gallery-item { height: 180px; }
+    .area-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .form-row { grid-template-columns: 1fr; }
+    .why-item { border-right: none; border-bottom: 1px solid rgba(0,0,0,0.2); }
+    footer { flex-direction: column; align-items: center; }
+    .footer-links { text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <div class="nav-logo-box">
+      <span class="nav-logo-text">CO<span class="nav-logo-dot">.</span>CO<span class="nav-logo-dot">.</span></span>
+    </div>
+  </div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#gallery">Our Work</a></li>
+    <li><a href="#area">Service Area</a></li>
+    <li><a href="#contact" class="nav-cta">Free Quote</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-accent"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Serving Utah County &amp; Salt Lake Valley</div>
+    <h1 class="hero-title">Built To<br><span class="red">Last.</span></h1>
+    <p class="hero-sub">Residential driveways, stamped patios, commercial flatwork — COCO Concrete delivers quality across Utah, from Salt Lake to Provo.</p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-primary">Get a Free Quote</a>
+      <a href="#gallery" class="btn-outline">See Our Work</a>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-item"><span class="trust-dot"></span> Licensed &amp; Insured</div>
+  <div class="trust-item"><span class="trust-dot"></span> Residential &amp; Commercial</div>
+  <div class="trust-item"><span class="trust-dot"></span> Free Estimates</div>
+  <div class="trust-item"><span class="trust-dot"></span> Utah County Locals</div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="container">
+    <div class="section-label">What We Do</div>
+    <h2 class="section-title">Concrete Services<br>Done Right</h2>
+    <p class="section-sub">From small residential jobs to large commercial pours — craftsmanship and reliability on every project.</p>
+    <div class="services-grid">
+      <div class="service-card"><div class="service-num">01</div><h3>Driveways</h3><p>Durable, clean concrete driveways that boost curb appeal and hold up to Utah's freeze-thaw cycles for decades.</p></div>
+      <div class="service-card"><div class="service-num">02</div><h3>Patios &amp; Outdoor Spaces</h3><p>Expand your living space with a custom concrete patio — smooth finish or decorative stamp, built to last.</p></div>
+      <div class="service-card"><div class="service-num">03</div><h3>Decorative &amp; Stamped Concrete</h3><p>Stamped patterns, exposed aggregate, colored concrete — make your project stand out without sacrificing durability.</p></div>
+      <div class="service-card"><div class="service-num">04</div><h3>Commercial Flatwork</h3><p>Parking lots, sidewalks, warehouse floors, commercial slabs — large-scale projects handled with precision and speed.</p></div>
+      <div class="service-card"><div class="service-num">05</div><h3>Concrete Repair</h3><p>Cracked, sunken, or crumbling concrete? We assess, repair, and restore your existing flatwork.</p></div>
+      <div class="service-card"><div class="service-num">06</div><h3>Curbs &amp; Gutters</h3><p>Residential and commercial curbing, gutters, and borders — installed cleanly and to grade every time.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="container">
+    <div class="section-label">Our Work</div>
+    <h2 class="section-title">Projects We're<br>Proud Of</h2>
+    <p class="section-sub">Real jobs, real results — across Utah County and the Salt Lake Valley.</p>
+    <div class="gallery-grid">
+      <div class="gallery-item">
+        <img src="images/project1.jpg" alt="Backyard Patios" loading="lazy" />
+        <div class="gallery-overlay"><span>Residential Driveway</span></div>
+      </div>
+      <div class="gallery-item">
+        <img src="images/project2.jpg" alt="Mailbox Pads" loading="lazy" />
+        <div class="gallery-overlay"><span>Stamped Patio</span></div>
+      </div>
+      <div class="gallery-item">
+        <img src="images/project3.jpg" alt="Stairs" loading="lazy" />
+        <div class="gallery-overlay"><span>Commercial Flatwork</span></div>
+      </div>
+      <div class="gallery-item">
+        <img src="images/project6.jpg" alt="Concrete pour" loading="lazy" />
+        <div class="gallery-overlay"><span>New Construction</span></div>
+      </div>
+      <div class="gallery-item">
+        <img src="images/project7.jpg" alt="Decorative concrete" loading="lazy" />
+        <div class="gallery-overlay"><span>Decorative Finish</span></div>
+      </div>
+    </div>
+    <div class="upload-note">
+      <strong>Your photos go here:</strong> Replace the placeholder images by swapping the <code>src="https://unsplash..."</code> URLs with paths to your own photos (e.g. <code>src="images/driveway1.jpg"</code>). Create an <code>images/</code> folder next to this file and drop your project photos in.
+    </div>
+  </div>
+</section>
+
+<!-- AREA -->
+<section id="area">
+  <div class="container">
+    <div class="section-label">Where We Work</div>
+    <h2 class="section-title">Proud to Serve<br>Utah's Communities</h2>
+    <p class="section-sub">From the Salt Lake Valley down through all of Utah County — we're your local crew.</p>
+    <div class="area-grid">
+      <ul class="area-list">
+        <li><span class="area-dot"></span> Salt Lake City &amp; South Valley</li>
+        <li><span class="area-dot"></span> Draper &amp; Sandy</li>
+        <li><span class="area-dot"></span> Lehi &amp; American Fork</li>
+        <li><span class="area-dot"></span> Saratoga Springs</li>
+        <li><span class="area-dot"></span> Eagle Mountain</li>
+        <li><span class="area-dot"></span> Pleasant Grove &amp; Lindon</li>
+        <li><span class="area-dot"></span> Orem &amp; Provo</li>
+        <li><span class="area-dot"></span> All of Utah County</li>
+      </ul>
+      <div class="area-map">
+        <div class="area-map-label">Wasatch Front</div>
+        <div class="area-map-sub">Salt Lake → Provo</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section id="why">
+  <div class="container">
+    <div class="section-label" style="color: rgba(255,255,255,0.55);">Why COCO Concrete</div>
+    <h2 class="section-title">Quality You Can Count On</h2>
+    <div class="why-grid">
+      <div class="why-item"><div class="why-number">100%</div><h4>Satisfaction Focus</h4><p>We don't leave until you're happy with the result.</p></div>
+      <div class="why-item"><div class="why-number">Free</div><h4>Estimates</h4><p>No cost, no commitment — just an honest quote.</p></div>
+      <div class="why-item"><div class="why-number">Local</div><h4>Utah Based</h4><p>We live here — we know Utah soil, climate, and code.</p></div>
+      <div class="why-item"><div class="why-number">All</div><h4>Project Sizes</h4><p>Small patio or big commercial pour — all handled seriously.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="section-label">Get In Touch</div>
+    <h2 class="section-title">Request Your<br>Free Estimate</h2>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h3>Tell us about your project.</h3>
+        <p>Fill out the form and we'll get back to you quickly with a free, no-obligation estimate. Prefer to call? We answer.</p>
+        <div class="contact-detail">
+          <div class="contact-icon">📞</div>
+          <div class="contact-detail-text"><strong>Phone</strong><a href="tel:2083980348">(208) 398-0348</a></div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-icon">✉️</div>
+          <div class="contact-detail-text"><strong>Email</strong><a href="mailto:collegeconcrete@gmail.com">collegeconcrete@gmail.com</a></div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-icon">📍</div>
+          <div class="contact-detail-text"><strong>Service Area</strong><span>Salt Lake to Provo, Utah</span></div>
+        </div>
+      </div>
+
+      <div class="lead-form">
+        <h3>Get Your Free Quote</h3>
+        <p class="form-sub">We respond within 1 business day.</p>
+        <div id="formSuccess" class="form-success">
+          <h4>Message Sent!</h4>
+          <p>Thanks for reaching out. We'll be in touch shortly.</p>
+        </div>
+        <!-- Replace YOUR_FORM_ID below with your actual Formspree form ID -->
+        <form id="leadForm" action="https://formspree.io/f/xnjopnpo" method="POST">
+          <input type="hidden" name="_subject" value="New Quote Request — COCO Concrete" />
+          <div class="form-row">
+            <div class="form-group"><label for="fname">First Name *</label><input type="text" id="fname" name="first_name" required placeholder="John" /></div>
+            <div class="form-group"><label for="lname">Last Name *</label><input type="text" id="lname" name="last_name" required placeholder="Smith" /></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label for="phone">Phone *</label><input type="tel" id="phone" name="phone" required placeholder="(801) 555-0000" /></div>
+            <div class="form-group"><label for="email">Email</label><input type="email" id="email" name="email" placeholder="john@email.com" /></div>
+          </div>
+          <div class="form-group"><label for="city">City / Area *</label><input type="text" id="city" name="city" required placeholder="e.g. Lehi, Eagle Mountain, Orem..." /></div>
+          <div class="form-group">
+            <label for="service">Type of Project *</label>
+            <select id="service" name="service" required>
+              <option value="">Select a service...</option>
+              <option>Driveway</option>
+              <option>Patio</option>
+              <option>Stamped / Decorative Concrete</option>
+              <option>Commercial Flatwork</option>
+              <option>Sidewalk or Curbing</option>
+              <option>Concrete Repair</option>
+              <option>Other / Not Sure</option>
+            </select>
+          </div>
+          <div class="form-group"><label for="message">Project Details</label><textarea id="message" name="message" placeholder="Tell us about your project — size, timeline, any questions..."></textarea></div>
+          <button type="submit" class="btn-submit">Send My Quote Request →</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo-box"><span class="footer-logo-text">CO.CO.</span></div>
+  <div class="footer-links">
+    <a href="tel:2083980348">(208) 398-0348</a>
+    <a href="mailto:collegeconcrete@gmail.com">collegeconcrete@gmail.com</a>
+    <span>Salt Lake to Provo, Utah</span>
+  </div>
+  <div class="footer-copy">&copy; 2026 COCO Concrete. All rights reserved.</div>
+</footer>
+
+<script>
+  const form = document.getElementById('leadForm');
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = form.querySelector('.btn-submit');
+    btn.textContent = 'Sending...'; btn.disabled = true;
+    try {
+      const res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } });
+      if (res.ok) {
+        form.style.display = 'none';
+        document.getElementById('formSuccess').style.display = 'block';
+      } else {
+        alert('Something went wrong. Please call us at (208) 398-0348.');
+        btn.textContent = 'Send My Quote Request →'; btn.disabled = false;
+      }
+    } catch {
+      alert('Something went wrong. Please call us at (208) 398-0348.');
+      btn.textContent = 'Send My Quote Request →'; btn.disabled = false;
+    }
+  });
+</script>
+</body>
+</html>
