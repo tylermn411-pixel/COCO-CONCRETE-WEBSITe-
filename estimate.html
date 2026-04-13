@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Concrete Quote Estimator | COCO Concrete</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;600;700&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --red: #7A1010;
+      --red-bright: #9B1515;
+      --red-light: #C02020;
+      --black: #0A0A0A;
+      --dark: #111111;
+      --dark2: #1A1A1A;
+      --dark3: #222222;
+      --white: #FFFFFF;
+      --border: rgba(255,255,255,0.08);
+    }
+    body {
+      font-family: 'Barlow', sans-serif;
+      background: var(--black);
+      color: var(--white);
+      min-height: 100vh;
+    }
+
+    .topbar {
+      background: rgba(10,10,10,0.97);
+      border-bottom: 2px solid var(--red);
+      padding: 0 2rem;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .topbar-logo span {
+      background: var(--red);
+      padding: 6px 14px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      color: var(--white);
+      letter-spacing: 0.08em;
+    }
+    .topbar-phone {
+      color: rgba(255,255,255,0.55);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .topbar-phone:hover { color: var(--red-light); }
+
+    .page-wrapper {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 5rem;
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .page-header .eyebrow {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--red-light);
+      margin-bottom: 0.75rem;
+    }
+    .page-header h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 8vw, 5.5rem);
+      line-height: 0.95;
+      letter-spacing: 0.02em;
+      color: var(--white);
+      margin-bottom: 1rem;
+    }
+    .page-header h1 span { color: var(--red-light); }
+    .page-header p {
+      color: rgba(255,255,255,0.45);
+      font-size: 0.95rem;
+      font-weight: 300;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .estimator-card {
+      background: var(--dark2);
+      border-top: 3px solid var(--red);
+      padding: 2.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .form-section-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--red-light);
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+    .form-grid.three-col { grid-template-columns: 1fr 1fr 1fr; }
+
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-group label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+    }
+    .form-group input,
+    .form-group select {
+      background: var(--dark);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--white);
+      font-family: 'Barlow', sans-serif;
+      font-size: 1rem;
+      padding: 0.7rem 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+    .form-group input:focus,
+    .form-group select:focus { border-color: var(--red); }
+    .form-group select option { background: var(--dark2); }
+    .form-group .hint {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.2);
+    }
+
+    .toggle-group { display: flex; }
+    .toggle-btn {
+      flex: 1;
+      background: var(--dark);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.4);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      padding: 0.7rem 0.5rem;
+      cursor: pointer;
+      transition: all 0.15s;
+      text-align: center;
+    }
+    .toggle-btn.active { background: var(--red); color: var(--white); border-color: var(--red); }
+    .toggle-btn:hover:not(.active) { background: var(--dark3); color: var(--white); }
+
+    .calc-btn {
+      width: 100%;
+      padding: 1.1rem;
+      background: var(--red);
+      color: var(--white);
+      border: none;
+      cursor: pointer;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      letter-spacing: 0.15em;
+      transition: background 0.2s, transform 0.15s;
+      clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 100%, 14px 100%);
+    }
+    .calc-btn:hover { background: var(--red-bright); transform: translateY(-1px); }
+
+    .results-card {
+      background: var(--dark2);
+      border-top: 3px solid var(--red);
+      padding: 2.5rem;
+      display: none;
+    }
+    .results-card.visible { display: block; }
+
+    .results-header {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      color: var(--white);
+      margin-bottom: 2rem;
+      letter-spacing: 0.02em;
+    }
+    .results-header span { color: var(--red-light); }
+
+    .minimum-notice {
+      background: rgba(122,16,16,0.3);
+      border: 1px solid var(--red);
+      padding: 0.9rem 1.25rem;
+      margin-bottom: 1.5rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.8);
+      display: none;
+    }
+    .minimum-notice.visible { display: block; }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--dark3);
+      margin-bottom: 2rem;
+    }
+    .result-box {
+      background: var(--dark);
+      padding: 1.5rem 1.25rem;
+      text-align: center;
+    }
+    .result-box .r-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+      margin-bottom: 0.5rem;
+    }
+    .result-box .r-value {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.2rem;
+      color: var(--white);
+      line-height: 1;
+    }
+    .result-box .r-unit { font-size: 0.8rem; color: rgba(255,255,255,0.35); margin-top: 0.2rem; }
+    .result-box.highlight .r-value { color: var(--red-light); font-size: 2.8rem; }
+
+    .breakdown-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--red-light);
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .breakdown-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    .breakdown-table tr { border-bottom: 1px solid var(--border); }
+    .breakdown-table td { padding: 0.75rem 0.5rem; color: rgba(255,255,255,0.55); }
+    .breakdown-table td:last-child { text-align: right; color: var(--white); font-weight: 600; }
+    .breakdown-table tr.total-row td {
+      color: var(--white); font-weight: 700;
+      border-top: 2px solid var(--red); border-bottom: none; padding-top: 1rem;
+    }
+    .breakdown-table tr.total-row td:last-child { color: var(--red-light); font-size: 1.1rem; }
+
+    .disclaimer {
+      margin-top: 1.5rem;
+      padding: 1rem 1.25rem;
+      background: rgba(122,16,16,0.15);
+      border-left: 3px solid var(--red);
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.35);
+      line-height: 1.6;
+    }
+    .disclaimer strong { color: rgba(255,255,255,0.5); }
+
+    .cta-row { margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap; }
+    .cta-btn {
+      flex: 1;
+      padding: 0.9rem 1.5rem;
+      background: var(--red);
+      color: var(--white);
+      border: none;
+      cursor: pointer;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      text-align: center;
+      transition: background 0.2s;
+      min-width: 160px;
+      display: inline-block;
+    }
+    .cta-btn:hover { background: var(--red-bright); }
+    .cta-btn.outline {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.7);
+    }
+    .cta-btn.outline:hover { border-color: var(--red); color: var(--red-light); }
+
+    footer {
+      background: var(--black);
+      border-top: 2px solid var(--red);
+      padding: 2rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 4rem;
+    }
+    .footer-logo { background: var(--red); padding: 6px 14px; }
+    .footer-logo span { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; color: var(--white); letter-spacing: 0.08em; }
+    .footer-links { display: flex; flex-direction: column; gap: 0.3rem; text-align: right; }
+    .footer-links a { color: rgba(255,255,255,0.4); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--red-light); }
+    .footer-copy { width: 100%; text-align: center; font-size: 0.75rem; color: rgba(255,255,255,0.18); padding-top: 1rem; border-top: 1px solid var(--border); }
+
+    @media (max-width: 600px) {
+      .form-grid { grid-template-columns: 1fr; }
+      .form-grid.three-col { grid-template-columns: 1fr 1fr; }
+      .results-grid { grid-template-columns: 1fr; }
+      .estimator-card, .results-card { padding: 1.5rem 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="topbar-logo"><span>CO.CO.</span></div>
+    <a href="tel:2083980348" class="topbar-phone">(208) 398-0348</a>
+  </div>
+
+  <div class="page-wrapper">
+
+    <div class="page-header">
+      <div class="eyebrow">COCO Concrete — Utah's Trusted Concrete Specialists</div>
+      <h1>Concrete<br><span>Quote</span><br>Estimator</h1>
+      <p>Get an instant ballpark estimate for your concrete project. Fill in your details below — it only takes 30 seconds.</p>
+    </div>
+
+    <div class="estimator-card">
+      <div class="form-section-title">Project Dimensions</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Length (feet)</label>
+          <input type="number" id="length" placeholder="e.g. 20" min="1" />
+        </div>
+        <div class="form-group">
+          <label>Width (feet)</label>
+          <input type="number" id="width" placeholder="e.g. 12" min="1" />
+        </div>
+      </div>
+
+      <div class="form-section-title">Concrete Thickness</div>
+      <div class="form-group" style="margin-bottom: 1.5rem;">
+        <label>Select thickness</label>
+        <div class="toggle-group" id="thicknessToggle">
+          <button class="toggle-btn active" data-inches="4">4" — Driveway / Patio</button>
+          <button class="toggle-btn" data-inches="5">5" — Heavy Use</button>
+          <button class="toggle-btn" data-inches="6">6" — Commercial</button>
+        </div>
+        <span class="hint">Standard residential is 4". Heavier loads (RVs, equipment) use 5–6".</span>
+      </div>
+
+      <div class="form-section-title">Project Type</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Type of Project</label>
+          <select id="projectType">
+            <option value="driveway">Driveway</option>
+            <option value="patio">Patio / Backyard</option>
+            <option value="sidewalk">Sidewalk / Walkway</option>
+            <option value="slab">Garage / Shop Slab</option>
+            <option value="stamped">Stamped / Decorative</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Finish Type</label>
+          <select id="finishType">
+            <option value="broom">Broom Finish (standard)</option>
+            <option value="smooth">Smooth / Trowel</option>
+            <option value="exposed">Exposed Aggregate</option>
+            <option value="stamped">Stamped Pattern</option>
+            <option value="colored">Colored Concrete</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-section-title">Add-Ons</div>
+      <div class="form-grid three-col" style="margin-bottom: 2rem;">
+        <div class="form-group">
+          <label>Rebar / Wire Mesh</label>
+          <select id="rebar">
+            <option value="none">None</option>
+            <option value="mesh" selected>Wire Mesh</option>
+            <option value="rebar">Rebar Grid</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Demo / Remove Existing</label>
+          <select id="demo">
+            <option value="no" selected>No</option>
+            <option value="yes">Yes</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Gravel Base Prep</label>
+          <select id="gravel">
+            <option value="no" selected>No</option>
+            <option value="yes">Yes</option>
+          </select>
+        </div>
+      </div>
+
+      <button class="calc-btn" onclick="calculate()">Calculate My Estimate →</button>
+    </div>
+
+    <div class="results-card" id="resultsCard">
+      <div class="results-header">Your Estimate <span>Is Ready</span></div>
+
+      <div class="minimum-notice" id="minimumNotice">
+        ⚠️ A $1,000 minimum applies to all projects under 150 sq ft.
+      </div>
+
+      <div class="results-grid">
+        <div class="result-box">
+          <div class="r-label">Total Area</div>
+          <div class="r-value" id="r-area">—</div>
+          <div class="r-unit">square feet</div>
+        </div>
+        <div class="result-box">
+          <div class="r-label">Concrete Needed</div>
+          <div class="r-value" id="r-yards">—</div>
+          <div class="r-unit">cubic yards</div>
+        </div>
+        <div class="result-box highlight">
+          <div class="r-label">Estimated Cost</div>
+          <div class="r-value" id="r-total">—</div>
+          <div class="r-unit">USD (range below)</div>
+        </div>
+      </div>
+
+      <div class="breakdown-title">Cost Breakdown</div>
+      <table class="breakdown-table" id="breakdownTable"></table>
+
+      <div class="disclaimer">
+        <strong>Disclaimer:</strong> This is a rough ballpark estimate based on typical Utah County pricing. Actual costs depend on site conditions, current material prices, access, and project complexity. <strong>Contact COCO Concrete for a free, accurate quote.</strong>
+      </div>
+
+      <div class="cta-row">
+        <a href="https://coco-concrete-websi-te.vercel.app/#contact" class="cta-btn">Get a Real Quote from COCO →</a>
+        <button class="cta-btn outline" onclick="resetForm()">Start Over</button>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="footer-logo"><span>CO.CO.</span></div>
+    <div class="footer-links">
+      <a href="tel:2083980348">(208) 398-0348</a>
+      <a href="mailto:collegeconcrete@gmail.com">collegeconcrete@gmail.com</a>
+      <span style="color: rgba(255,255,255,0.2); font-size: 0.8rem;">Salt Lake to Provo, Utah</span>
+    </div>
+    <div class="footer-copy">&copy; 2026 COCO Concrete. All rights reserved.</div>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.toggle-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+
+    function getThickness() {
+      return parseFloat(document.querySelector('.toggle-btn.active').dataset.inches);
+    }
+
+    const MINIMUM = 1000;
+    const MINIMUM_SQFT = 150;
+
+    function applyMinimum(value, sqft) {
+      return sqft < MINIMUM_SQFT ? Math.max(value, MINIMUM) : value;
+    }
+
+    function calculate() {
+      const length = parseFloat(document.getElementById('length').value);
+      const width = parseFloat(document.getElementById('width').value);
+      const thickness = getThickness();
+      const projectType = document.getElementById('projectType').value;
+      const finishType = document.getElementById('finishType').value;
+      const rebar = document.getElementById('rebar').value;
+      const demo = document.getElementById('demo').value;
+      const gravel = document.getElementById('gravel').value;
+
+      if (!length || !width || length <= 0 || width <= 0) {
+        alert('Please enter valid length and width dimensions.');
+        return;
+      }
+
+      const sqft = length * width;
+      const cuYards = (sqft * (thickness / 12)) / 27;
+      const cuYardsWithWaste = cuYards * 1.08;
+
+      const basePrices = { driveway: 7.50, patio: 7.00, sidewalk: 6.50, slab: 6.75, stamped: 11.00 };
+      const finishUpcharge = { broom: 0, smooth: 0.50, exposed: 1.50, stamped: 4.00, colored: 2.50 };
+      const rebarCost = { none: 0, mesh: 0.45, rebar: 0.90 };
+
+      let basePerSqft = basePrices[projectType] || 7.00;
+      let finishExtra = projectType === 'stamped' ? 0 : (finishUpcharge[finishType] || 0);
+      let rebarExtra = rebarCost[rebar] || 0;
+      let demoExtra = demo === 'yes' ? 2.25 : 0;
+      let gravelExtra = gravel === 'yes' ? 1.50 : 0;
+
+      const totalPerSqft = basePerSqft + finishExtra + rebarExtra + demoExtra + gravelExtra;
+
+      const rawLow = Math.round(totalPerSqft * sqft * 0.90);
+      const rawMid = Math.round(totalPerSqft * sqft);
+      const rawHigh = Math.round(totalPerSqft * sqft * 1.15);
+
+      const lowTotal = applyMinimum(rawLow, sqft);
+      const midTotal = applyMinimum(rawMid, sqft);
+      const highTotal = applyMinimum(rawHigh, sqft);
+
+      const rows = [
+        ['Concrete labor & material', basePerSqft, basePerSqft * sqft],
+        ...(finishExtra > 0 ? [['Finish upgrade', finishExtra, finishExtra * sqft]] : []),
+        ...(rebarExtra > 0 ? [['Reinforcement (' + rebar + ')', rebarExtra, rebarExtra * sqft]] : []),
+        ...(demoExtra > 0 ? [['Demo & haul existing concrete', demoExtra, demoExtra * sqft]] : []),
+        ...(gravelExtra > 0 ? [['Gravel base preparation', gravelExtra, gravelExtra * sqft]] : []),
+      ];
+
+      let tableHTML = rows.map(([label, perSqft, total]) =>
+        `<tr>
+          <td>${label}</td>
+          <td style="text-align:center; color: rgba(255,255,255,0.35);">$${perSqft.toFixed(2)}/sqft</td>
+          <td>$${Math.round(total).toLocaleString()}</td>
+        </tr>`
+      ).join('');
+
+      tableHTML += `<tr class="total-row">
+        <td colspan="2">Estimated Total Range</td>
+        <td>$${lowTotal.toLocaleString()} – $${highTotal.toLocaleString()}</td>
+      </tr>`;
+
+      // Show minimum notice if applicable
+      const notice = document.getElementById('minimumNotice');
+      if (sqft < MINIMUM_SQFT) {
+        notice.classList.add('visible');
+      } else {
+        notice.classList.remove('visible');
+      }
+
+      document.getElementById('r-area').textContent = sqft.toLocaleString();
+      document.getElementById('r-yards').textContent = cuYardsWithWaste.toFixed(1);
+      document.getElementById('r-total').textContent = '$' + midTotal.toLocaleString();
+      document.getElementById('breakdownTable').innerHTML = tableHTML;
+
+      const card = document.getElementById('resultsCard');
+      card.classList.add('visible');
+      card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function resetForm() {
+      document.getElementById('length').value = '';
+      document.getElementById('width').value = '';
+      document.querySelectorAll('.toggle-btn').forEach((b, i) => b.classList.toggle('active', i === 0));
+      document.getElementById('projectType').value = 'driveway';
+      document.getElementById('finishType').value = 'broom';
+      document.getElementById('rebar').value = 'mesh';
+      document.getElementById('demo').value = 'no';
+      document.getElementById('gravel').value = 'no';
+      document.getElementById('resultsCard').classList.remove('visible');
+      document.getElementById('minimumNotice').classList.remove('visible');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+
+</body>
+</html>
